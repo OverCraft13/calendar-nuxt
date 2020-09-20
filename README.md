@@ -1,5 +1,7 @@
 # calendar
 
+Calendar application with Vue UI Library 
+
 ## Build Setup
 
 ```bash
