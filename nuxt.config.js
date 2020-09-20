@@ -29,15 +29,25 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+  loading: {
+    color: '#39b982',
+    height: '5px',
+    throttle: 100,
+    duration: 4000,
+  },
   /*
    ** Global CSS
    */
-  css: [],
+  css: [{ src: '~/css/global.scss', lang: 'scss' }],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [],
+  plugins: [
+    '~/plugins/i18n.js',
+    '~/plugins/vee-validate.js',
+    { src: '~/plugins/vue-apexchart.js', ssr: false, mode: 'client' },
+  ],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -70,8 +80,17 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
+        light: {
+          primary: '#845EC2',
+          secondary: '#00C9A7',
+          accent: '#00949C',
+          error: '#e44f4f',
+          third: '#4B4453',
+          danger: '#f3625d',
+          warning: colors.amber.base,
+        },
         dark: {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
@@ -88,5 +107,10 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    transpile: ['vee-validate/dist/rules'],
+  },
+  router: {
+    middleware: 'i18n',
+  },
 }

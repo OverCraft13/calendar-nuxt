@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "photos": "Photos",
+    "about": "About",
+    "appointments": "Citas",
+    "patients": "Pacientes",
+    "messages": "Messages",
+    "foods": "Alimentos",
+    "recepies": "Recepies"
+  },
+  "home": {
+    "title": "Welcome",
+    "introduction": "This is an introduction in English."
+  },
+  "about": {
+    "title": "About",
+    "introduction": "This page is made to give you more informations."
+  },
+  "patients": {
+    "update": {
+      "delete": "Eliminar",
+      "close": "Cerrar",
+      "deleteWarning": "Estas seguro de eliminar a este paciente?"
+    }
+  }
+}

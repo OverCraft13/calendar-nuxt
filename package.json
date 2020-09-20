@@ -10,9 +10,16 @@
     "lint:js": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "lint": "npm run lint:js"
   },
+  "author": "Jose Luis Davalos",
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
-    "nuxt": "^2.14.0"
+    "apexcharts": "^3.20.2",
+    "nuxt": "^2.14.0",
+    "universal-cookie": "^4.0.3",
+    "vee-validate": "^3.3.9",
+    "vue-apexcharts": "^1.6.0",
+    "vue-country-flag": "^2.0.1",
+    "vue-i18n": "^8.21.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.1.0",

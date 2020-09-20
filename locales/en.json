@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "photos": "Photos",
+    "about": "About",
+    "appointments": "Appointments",
+    "patients": "Patients",
+    "messages": "Messages",
+    "foods": "Foods",
+    "recipes": "Recipes",
+    "measurements": "Measurements",
+    "mealPlans": "Meal plans"
+  },
+  "profile": {
+    "profile": "Personal profile"
+  },
+  "models": {
+    "user": {
+      "male": "Male",
+      "female": "Female",
+      "gender": "Gender",
+      "name": "Name",
+      "email": "Email",
+      "birthdate": "Birthday date",
+      "weight": "Weight",
+      "height": "Height"
+    }
+  },
+  "actions": {
+    "delete": "Delete",
+    "close": "Close",
+    "warning": "Are  you sure?",
+    "cancel": "Cancel"
+  },
+  "login": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "create-an-account": "Create an account",
+    "forgot-password": "Forgot password?"
+  },
+  "register": {
+    "register": "Register",
+    "confirmPassword": "Confirm password"
+  },
+  "events": {
+    "deleted": "Successfully deleted."
+  },
+  "home": {
+    "title": "Welcome",
+    "introduction": "This is an introduction in English."
+  },
+  "about": {
+    "title": "About",
+    "introduction": "This page is made to give you more informations."
+  },
+  "patients": {
+    "update": {
+      "information": "Patient information",
+      "deleted": "Patient deleted",
+      "deleteWarning": "This action will permanently remove the patient from the application"
+    }
+  }
+}

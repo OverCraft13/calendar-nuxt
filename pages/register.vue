@@ -2,21 +2,20 @@
   <v-container fill-height>
     <v-row>
       <v-col cols="11" md="9" class="mx-auto">
-        <v-card class="background-color card-shadow" height="500">
+        <v-card class="card-shadow background-color" height="500">
           <v-row no-gutters align="center">
             <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="6">
               <div>
                 <v-img
-                  :src="require('~/assets/illustrations/block-chain.png')"
+                  :src="require('~/assets/illustrations/remote-team.png')"
                 ></v-img>
               </div>
             </v-col>
 
             <v-col cols="12" md="6" class="white px-4 py-8">
               <v-card-title class="my-xl-4" primary-title>
-                <p class="tittle">Login</p>
+                <p class="tittle">{{ $t('app.register.register') }}</p>
               </v-card-title>
-
               <v-card-text class="text-center">
                 <ValidationObserver ref="observer">
                   <v-form>
@@ -27,10 +26,10 @@
                     >
                       <v-text-field
                         v-model="email"
-                        class="my-xl-3"
+                        class="my-xl-4"
                         name="email"
-                        :error-messages="errors"
                         :label="$t('app.login.email')"
+                        :error-messages="errors"
                       ></v-text-field>
                     </ValidationProvider>
                     <ValidationProvider
@@ -38,22 +37,34 @@
                       name="password"
                       rules="required|min:6|max:20"
                     >
-                      >
                       <v-text-field
                         v-model="password"
-                        class="my-xl-3"
-                        type="password"
-                        maxlength="20"
-                        :error-messages="errors"
+                        class="my-xl-4"
                         name="password"
+                        type="password"
+                        :error-messages="errors"
                         :label="$t('app.login.password')"
+                      ></v-text-field>
+                    </ValidationProvider>
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="password confirmation"
+                      :rules="'required|min:6|max:20|string-match:' + password"
+                    >
+                      <v-text-field
+                        v-model="confirmPassword"
+                        class="my-xl-4"
+                        type="password"
+                        :error-messages="errors"
+                        name="confirmPassword"
+                        :label="$t('app.register.confirmPassword')"
                       ></v-text-field>
                     </ValidationProvider>
                   </v-form>
                 </ValidationObserver>
-                <div v-show="failedLogin">
+                <div v-show="failedRegistration">
                   <p class="mt-0 mb-0" style="color: #f3625d">
-                    {{ loginError }}
+                    {{ registerError }}
                   </p>
                 </div>
                 <v-btn
@@ -62,26 +73,17 @@
                   rounded
                   :disabled="disabledButton"
                   width="100%"
-                  @click="loginUser"
+                  @click="registerUser"
+                  >{{ $t('app.register.register') }}</v-btn
                 >
-                  {{ $t('app.login.login') }}
-                </v-btn>
                 <v-btn
                   class="my-xl-4 my-3 no-uppercase"
                   color="secondary"
                   outlined
                   rounded
-                  to="/register"
+                  to="/"
                   width="100%"
-                  >{{ $t('app.login.create-an-account') }}
-                </v-btn>
-
-                <v-btn
-                  small
-                  class="my-xl-6 my-3 no-uppercase"
-                  color="primary"
-                  text
-                  >{{ $t('app.login.forgot-password') }}</v-btn
+                  >{{ $t('app.login.login') }}</v-btn
                 >
               </v-card-text>
             </v-col>
@@ -93,6 +95,7 @@
 </template>
 
 <script>
+/* eslint-disable no-console */
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import AuthService from '@/services/AuthService.js'
 export default {
@@ -106,55 +109,56 @@ export default {
     return {
       email: '',
       password: '',
-      failedLogin: false,
-      loginError: '',
+      confirmPassword: '',
+      failedRegistration: false,
       disabledButton: false,
+      registerError: '',
     }
   },
   methods: {
-    loginUser() {
-      this.failedLogin = false
+    registerUser() {
+      this.failedRegistration = false
       this.$refs.observer.validate().then((result) => {
         if (result) {
-          // do axios or whatever on validate true
           this.disabledButton = true
           this.$nuxt.$loading.start()
-          AuthService.login(this.email, this.password)
+          AuthService.register(this.email, this.password)
             .then((response) => {
-              const user = response.data.user
               this.$nuxt.$loading.finish()
-              console.log(response)
-              this.$store.dispatch('login', user)
+              this.$store.dispatch('login', response.data.user)
               this.$router.push({
-                path: this.$i18n.path('/users/dashboard'),
+                path: this.$i18n.path('/registered'),
               })
             })
             .catch((err) => {
+              console.log(err.response)
+
               switch (err.response.data.code) {
-                case 401:
-                  this.loginError = 'wrong email or password'
+                case 400:
+                  this.registerError = 'the email is already registered'
 
                   break
                 case 422:
-                  this.loginError = 'Unprocessable entity'
+                  this.registerError = 'Unprocessable entity'
 
                   break
                 case 429:
-                  this.loginError = 'Too many requests'
+                  this.registerError =
+                    'Too many requests registration requests from this ip adress'
 
                   break
                 case 500:
-                  this.loginError = 'Something went wrong'
+                  this.registerError = 'Something went wrong'
 
-                  break
-                default:
-                  this.loginError = 'default error'
                   break
               }
               this.disabledButton = false
+              this.failedRegistration = true
               this.$nuxt.$loading.finish()
-              this.failedLogin = true
             })
+        }
+        if (!result) {
+          console.log('Invalid form , vee validate')
         }
       })
     },
